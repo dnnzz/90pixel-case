@@ -1,9 +1,14 @@
 import React from "react";
 import { Form, Input, Button , Typography  } from "antd";
+import { UserContext } from '../context/UserContext';
 const {Title} = Typography;
+
 export default function LoginForm() {
+    const [form] = Form.useForm();
+    const {login} = React.useContext(UserContext);
     const onFinish = (values) => {
-        console.log('Success:', values);
+        login(values.email);
+        form.resetFields();
       };
     
       const onFinishFailed = (errorInfo) => {
@@ -13,6 +18,7 @@ export default function LoginForm() {
         <>
         <Title style={{textAlign:"center"}} mark={true}>Login</Title>
         <Form
+            form={form}
             name='login-form'
             labelCol={{
                 span: 8,
@@ -25,16 +31,28 @@ export default function LoginForm() {
             autoComplete='off'
         >
             <Form.Item
-                label='Username'
-                name='username'
+                label='Email'
+                name='email'
                 rules={[
                     {
                         required: true,
-                        message: "Please input your username!",
+                        message: "Please input your email!",
                     },
                 ]}
             >
                 <Input />
+            </Form.Item>
+            <Form.Item
+                label='Password'
+                name='password'
+                rules={[
+                    {
+                        required: true,
+                        message: "Please input your password!",
+                    },
+                ]}
+            >
+                <Input.Password />
             </Form.Item>
             <Form.Item
                 wrapperCol={{

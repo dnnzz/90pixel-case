@@ -6,7 +6,9 @@ import RegisterForm from "./components/RegisterForm";
 import LoginForm from "./components/LoginForm";
 import { Routes , Route} from "react-router-dom";
 import UserList from "./components/UserList";
+import {UserProvider} from './context/UserContext';
 ReactDOM.render(
+    <UserProvider>
     <Router>
         <Routes>
             <Route path='/' element={<App />}>
@@ -15,6 +17,7 @@ ReactDOM.render(
               <Route path="userlist" element={<UserList />} />
             </Route>
         </Routes>
-    </Router>,
+    </Router>
+    </UserProvider>,
     document.getElementById("root")
 );
