@@ -1,16 +1,17 @@
 import React from 'react'
 import {Form,Input,Button} from 'antd';
-export default function ModalForm({selectedUser}) {
-    const onFinish = (values) => {
-        console.log('Success:', values);
-      };
-    
-      const onFinishFailed = (errorInfo) => {
-        console.log('Failed:', errorInfo);
+import axios from 'axios';
+export default function ModalForm({selectedUser,setIsModalVisible}) {
+    const [form] = Form.useForm();
+    const onFinish = async (values) => {
+       await axios.put(`https://61a6142d8395690017be902e.mockapi.io/api/users/${selectedUser.id}`,values);
+        form.resetFields();
+        setIsModalVisible(false);
       };
     return (
         <div>
             <Form
+            form={form}
             name='login-form'
             labelCol={{
                 span: 8,
@@ -19,14 +20,13 @@ export default function ModalForm({selectedUser}) {
                 span: 16,
             }}
             onFinish={onFinish}
-            onFinishFailed={onFinishFailed}
             autoComplete='off'
         >
             <Form.Item
-                label='Avatar'
-                name='avatar'
+                label='Email'
+                name='email'
             >
-                <Input placeholder={selectedUser.avatar} />
+                <Input placeholder={selectedUser.email} />
             </Form.Item>
             <Form.Item
                 label='Name'

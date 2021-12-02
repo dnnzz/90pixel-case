@@ -18,14 +18,6 @@ export default function UserList() {
         setIsModalVisible(true);
         setSelectedUser(obj);
     };
-
-    const handleOk = () => {
-        setIsModalVisible(false);
-    };
-
-    const handleCancel = () => {
-        setIsModalVisible(false);
-    };
     const columns = [
         {
             title: "Avatar",
@@ -48,6 +40,12 @@ export default function UserList() {
             key: "name",
             render: (text) => <p>{text}</p>,
         },
+        {
+          title: "Email",
+          dataIndex: "email",
+          key: "email",
+          render: (text) => <p>{text}</p>,
+      },
         {
             title: "Action",
             key: "action",
@@ -80,13 +78,13 @@ export default function UserList() {
     };
     React.useEffect(() => {
         fetchData();
-    }, []);
+    }, [isModalVisible]);
     return (
         <div>
             {users !== undefined ? (
                 <>
                 <Table columns={columns} dataSource={users} />
-                <Modal title="Edit user" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+                <Modal title="Edit user" visible={isModalVisible}>
                  <ModalForm selectedUser={selectedUser} setIsModalVisible={setIsModalVisible} />
               </Modal>
               </>
