@@ -2,10 +2,12 @@ import React from "react";
 import { Table, Space, Avatar, Image, Spin, Button , Modal} from "antd";
 import axios from "axios";
 import ModalForm from "./ModalForm";
+import { UserContext } from "../context/UserContext";
 
 export default function UserList() {
     const [users, setUsers] = React.useState(undefined);
     const [selectedUser,setSelectedUser] = React.useState(undefined);
+    const {user} = React.useContext(UserContext);
     const deleteUser = async (id) => {
         axios.delete(
             `https://61a6142d8395690017be902e.mockapi.io/api/users/${id}`
@@ -74,7 +76,7 @@ export default function UserList() {
             "https://61a6142d8395690017be902e.mockapi.io/api/users"
         );
         const { data } = await res;
-        setUsers(data);
+        setUsers(data.filter(item => item.email !== user.email));
     };
     React.useEffect(() => {
         fetchData();

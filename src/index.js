@@ -7,6 +7,7 @@ import LoginForm from "./components/LoginForm";
 import { Routes , Route} from "react-router-dom";
 import UserList from "./components/UserList";
 import {UserProvider} from './context/UserContext';
+import RequireAuth from './components/RequireAuth';
 ReactDOM.render(
     <UserProvider>
     <Router>
@@ -14,7 +15,7 @@ ReactDOM.render(
             <Route path='/' element={<App />}>
               <Route path='register' element={<RegisterForm />} />
               <Route path='login' element={<LoginForm />} />
-              <Route path="userlist" element={<UserList />} />
+              <Route path="userlist" element={<RequireAuth><UserList /></RequireAuth>} />
             </Route>
         </Routes>
     </Router>
