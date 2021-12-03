@@ -1,13 +1,15 @@
 import "./App.less";
 import { Layout, Menu } from "antd";
-import { LoginOutlined, FormOutlined, UserOutlined } from "@ant-design/icons";
-import { useState } from "react";
+import { LoginOutlined, FormOutlined, UserOutlined , LogoutOutlined} from "@ant-design/icons";
+import { useState , useContext} from "react";
 import {useNavigate , Outlet} from "react-router-dom";
+import { UserContext } from "./context/UserContext";
 const { Content, Footer, Sider } = Layout;
 
 function App() {
     const [collapsed, setCollapsed] = useState(false);
     const navigate= useNavigate();
+    const {user,logout} = useContext(UserContext);
     const setRoute = (key) => {
       switch (key) {
         case "1":
@@ -19,6 +21,10 @@ function App() {
         case "3":
           navigate('userlist');
           break;
+        case "4":
+            logout();
+            navigate('login');
+            break;
         default:
           break;
       }
@@ -38,15 +44,25 @@ function App() {
                         mode='inline'
                         onClick={(e) => setRoute(e.key)}
                     >
-                        <Menu.Item key='1' icon={<LoginOutlined />}>
-                            Login
+                        {user.email === '' && 
+                        <>
+                         <Menu.Item key='1' icon={<LoginOutlined />}>
+                         Login
                         </Menu.Item>
                         <Menu.Item key='2' icon={<FormOutlined />}>
                             Register
                         </Menu.Item>
-                        <Menu.Item key='3' icon={<UserOutlined />}>
+                        </> }
+                       {user.email !== '' && 
+                       <>
+                       <Menu.Item key='3' icon={<UserOutlined />}>
                             Users
                         </Menu.Item>
+                        <Menu.Item key='4' icon={<LogoutOutlined />}>
+                            Logout
+                        </Menu.Item>
+                        </>
+                        }
                     </Menu>
                 </Sider>
                 <Layout className='site-layout'>

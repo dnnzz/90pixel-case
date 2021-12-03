@@ -1,14 +1,19 @@
 import React from "react";
 import { Form, Input, Button , Typography  } from "antd";
 import { UserContext } from '../context/UserContext';
+import {useNavigate} from "react-router-dom";
 const {Title} = Typography;
 
 export default function LoginForm() {
+    const navigate= useNavigate();
     const [form] = Form.useForm();
     const {login} = React.useContext(UserContext);
-    const onFinish = (values) => {
-        login(values.email);
-        form.resetFields();
+    const onFinish = async (values) => {
+        const res = await login(values.email);
+        if(res === "done"){
+            navigate('/userlist');
+            form.resetFields();
+        }
       };
     
       const onFinishFailed = (errorInfo) => {
